@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Never Let Me Go - Study Organizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffb6c1, #b2f7ef);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        header {
+            background: #f06292;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            background: #b2dfdb;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #00695c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .content-section {
+            background: #fff;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .toolbar button {
+            margin: 0 5px;
+            padding: 10px;
+            background: #8bc34a;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .toolbar button:hover {
+            background: #689f38;
+        }
+        .content-editable {
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f9f9f9;
+            min-height: 150px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            background: #ff6699;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Never Let Me Go - Study Organizer</h1>
+</header>
+
+<nav>
+    <a href="#setting">Setting</a>
+    <a href="#characters">Characters</a>
+    <a href="#themes">Themes</a>
+    <a href="#important-moments">Important Moments</a>
+    <a href="#questions">Questions</a>
+    <a href="#additional-sections">Additional Sections</a>
+</nav>
+
+<!-- Setting Section -->
+<div class="content-section" id="setting">
+    <h2>Setting</h2>
+    <input type="text" id="searchInput-setting" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('setting')" />
+    <button onclick="searchText('setting')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('setting')">Bold</button>
+        <button onclick="toggleItalic('setting')">Italic</button>
+        <button onclick="highlightText('setting')">Highlight</button>
+        <button onclick="removeHighlight('setting')">Remove Highlight</button>
+        <button onclick="changeFontSize('setting', 'increase')">A+</button>
+        <button onclick="changeFontSize('setting', 'decrease')">A-</button>
+        <button onclick="changeTextColor('setting')">Text Color</button>
+        <input type="color" id="colorPicker-setting" onchange="updateTextColor('setting')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="setting-content">
+        <h3>Key Locations</h3>
+        <p><strong>Hailsham:</strong> A secluded boarding school where Kathy, Tommy, and Ruth grow up...</p>
+        <p><strong>Explanation:</strong> Hailsham represents a space of innocence...</p>
+    </div>
+</div>
+
+<!-- Characters Section -->
+<div class="content-section" id="characters">
+    <h2>Characters</h2>
+    <input type="text" id="searchInput-characters" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('characters')" />
+    <button onclick="searchText('characters')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('characters')">Bold</button>
+        <button onclick="toggleItalic('characters')">Italic</button>
+        <button onclick="highlightText('characters')">Highlight</button>
+        <button onclick="removeHighlight('characters')">Remove Highlight</button>
+        <button onclick="changeFontSize('characters', 'increase')">A+</button>
+        <button onclick="changeFontSize('characters', 'decrease')">A-</button>
+        <button onclick="changeTextColor('characters')">Text Color</button>
+        <input type="color" id="colorPicker-characters" onchange="updateTextColor('characters')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="characters-content">
+        <h3>Key Characters</h3>
+        <p><strong>Kathy H. (Narrator):</strong> Empathetic and reflective...</p>
+    </div>
+</div>
+
+<!-- Themes Section -->
+<div class="content-section" id="themes">
+    <h2>Themes</h2>
+    <input type="text" id="searchInput-themes" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('themes')" />
+    <button onclick="searchText('themes')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('themes')">Bold</button>
+        <button onclick="toggleItalic('themes')">Italic</button>
+        <button onclick="highlightText('themes')">Highlight</button>
+        <button onclick="removeHighlight('themes')">Remove Highlight</button>
+        <button onclick="changeFontSize('themes', 'increase')">A+</button>
+        <button onclick="changeFontSize('themes', 'decrease')">A-</button>
+        <button onclick="changeTextColor('themes')">Text Color</button>
+        <input type="color" id="colorPicker-themes" onchange="updateTextColor('themes')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="themes-content">
+        <h3>Memory and Identity</h3>
+        <p>The theme of memory and identity is critical...</p>
+    </div>
+</div>
+
+<!-- Important Moments Section -->
+<div class="content-section" id="important-moments">
+    <h2>Important Moments</h2>
+    <input type="text" id="searchInput-important-moments" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('important-moments')" />
+    <button onclick="searchText('important-moments')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('important-moments')">Bold</button>
+        <button onclick="toggleItalic('important-moments')">Italic</button>
+        <button onclick="highlightText('important-moments')">Highlight</button>
+        <button onclick="removeHighlight('important-moments')">Remove Highlight</button>
+        <button onclick="changeFontSize('important-moments', 'increase')">A+</button>
+        <button onclick="changeFontSize('important-moments', 'decrease')">A-</button>
+        <button onclick="changeTextColor('important-moments')">Text Color</button>
+        <input type="color" id="colorPicker-important-moments" onchange="updateTextColor('important-moments')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="important-moments-content">
+        <h3>Token Exchange</h3>
+        <p>The students use tokens to exchange for items...</p>
+    </div>
+</div>
+
+<!-- Questions Section -->
+<div class="content-section" id="questions">
+    <h2>Questions</h2>
+    <input type="text" id="searchInput-questions" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('questions')" />
+    <button onclick="searchText('questions')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('questions')">Bold</button>
+        <button onclick="toggleItalic('questions')">Italic</button>
+        <button onclick="highlightText('questions')">Highlight</button>
+        <button onclick="removeHighlight('questions')">Remove Highlight</button>
+        <button onclick="changeFontSize('questions', 'increase')">A+</button>
+        <button onclick="changeFontSize('questions', 'decrease')">A-</button>
+        <button onclick="changeTextColor('questions')">Text Color</button>
+        <input type="color" id="colorPicker-questions" onchange="updateTextColor('questions')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="questions-content">
+        <h3>Questions on Naming and Codes</h3>
+        <p>Why do the characters have numbered codes...</p>
+    </div>
+</div>
+
+<!-- Additional Sections -->
+<div class="content-section" id="additional-sections">
+    <h2>Additional Sections</h2>
+    <input type="text" id="searchInput-additional-sections" placeholder="Search..." onkeydown="if(event.key === 'Enter') searchText('additional-sections')" />
+    <button onclick="searchText('additional-sections')">Search</button>
+
+    <div class="toolbar">
+        <button onclick="toggleBold('additional-sections')">Bold</button>
+        <button onclick="toggleItalic('additional-sections')">Italic</button>
+        <button onclick="highlightText('additional-sections')">Highlight</button>
+        <button onclick="removeHighlight('additional-sections')">Remove Highlight</button>
+        <button onclick="changeFontSize('additional-sections', 'increase')">A+</button>
+        <button onclick="changeFontSize('additional-sections', 'decrease')">A-</button>
+        <button onclick="changeTextColor('additional-sections')">Text Color</button>
+        <input type="color" id="colorPicker-additional-sections" onchange="updateTextColor('additional-sections')">
+    </div>
+
+    <div class="content-editable" contenteditable="true" id="additional-sections-content">
+        <h3>Reflection on the Endings</h3>
+        <p>Discuss the final chapters and how the narrative resolves...</p>
+    </div>
+</div>
+
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAA6IM_CGfc749lOpY8nMmhD0BwcyY0NnE",
+        authDomain: "never-let-me-go-organizer.firebaseapp.com",
+        projectId: "never-let-me-go-organizer",
+        storageBucket: "never-let-me-go-organizer.appspot.com",
+        messagingSenderId: "464059546986",
+        appId: "1:464059546986:web:2100c7ef5f3a2b071d7913"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+
+    const sections = ['setting', 'characters', 'themes', 'important-moments', 'questions', 'additional-sections'];
+    sections.forEach(section => {
+        const contentRef = database.ref(`sections/${section}`);
+
+        contentRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById(`${section}-content`).innerText = data.text || '';
+            }
+        });
+
+        const contentDiv = document.getElementById(`${section}-content`);
+        contentDiv.addEventListener('input', () => {
+            const newText = contentDiv.innerText;
+            contentRef.set({ text: newText });
+        });
+    });
+
+    function searchText(section) {
+        const searchInput = document.getElementById(`searchInput-${section}`).value;
+        const content = document.getElementById(`${section}-content`).innerHTML;
+        const regex = new RegExp(searchInput, 'gi');
+        let matches = content.match(regex);
+        let matchCount = matches ? matches.length : 0;
+
+        alert('Found ' + matchCount + ' match(es)');
+
+        document.getElementById(`${section}-content`).innerHTML = content.replace(regex, (match) => {
+            return `<span class="highlight">${match}</span>`;
+        });
+    }
+
+    function toggleBold(section) {
+        document.execCommand('bold', false, null);
+    }
+
+    function toggleItalic(section) {
+        document.execCommand('italic', false, null);
+    }
+
+    function highlightText(section) {
+        document.execCommand('backColor', false, 'yellow');
+    }
+
+    function removeHighlight(section) {
+        document.execCommand('removeFormat', false, null);
+    }
+
+    function changeFontSize(section, action) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+        const selectedText = range.extractContents();
+        const span = document.createElement('span');
+
+        const parentElement = range.startContainer.parentNode;
+        const currentSize = parseInt(window.getComputedStyle(parentElement).fontSize) || 16;
+
+        if (action === 'increase') {
+            span.style.fontSize = (currentSize + 2) + 'px';
+        } else if (action === 'decrease') {
+            span.style.fontSize = (currentSize - 2) + 'px';
+        }
+
+        span.appendChild(selectedText);
+        range.insertNode(span);
+    }
+
+    function changeTextColor(section) {
+        const color = document.getElementById(`colorPicker-${section}`).value;
+        document.execCommand('foreColor', false, color);
+    }
+
+    function updateTextColor(section) {
+        const color = document.getElementById(`colorPicker-${section}`).value;
+        changeTextColor(section, color);
+    }
+</script>
+
+</body>
+</html>
